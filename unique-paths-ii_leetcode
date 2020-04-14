@@ -1,0 +1,38 @@
+class Solution {
+public:
+    
+    bool isSafe(vector<vector<int>>& obstacleGrid,int i,int j,int n,int m)
+    {
+        if(i<0||j<0||i>=n||j>=m||obstacleGrid[i][j]==1)
+        return  false;
+        return true;
+        
+    }
+    int helper(vector<vector<int>>& obstacleGrid,int i,int j,int n,int m,vector<vector<int>>& dp){
+        int count;
+        //int temp=obstacleGrid[i][j];
+        if(!isSafe(obstacleGrid ,i,j,n,m))
+            return 0;
+        if(i==n-1&&j==m-1)
+            return 1;
+  
+        if(dp[i+1][j]==-1)
+           dp[i+1][j]  = helper(obstacleGrid,i+1,j,n,m,dp);
+        if(dp[i][j+1]==-1)
+           dp[i][j+1]  = helper(obstacleGrid,i,j+1,n,m,dp);
+             count=dp[i+1][j]+dp[i][j+1];
+        return count;
+    }
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        //int count=0;
+        int n=obstacleGrid.size();
+        if(n==0)
+            return 0;
+        int m=obstacleGrid[0].size();
+       // vector<int> temp(m,-1);
+        vector<vector<int>> dp(n+1,vector<int>(m+1,-1));
+        int ans= helper(obstacleGrid,0,0,n,m,dp);
+        
+        return ans;
+    }
+};
